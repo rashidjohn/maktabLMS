@@ -228,7 +228,7 @@ ENV/
 # db.sqlite3
 
 # Excel fayllar (agar bu baza bo'lsa va GitHubga chiqmasligi kerak bo'lsa)
-baza.xlsx
+# baza.xlsx
 
 # PyCharm sozlamalari (rasmdagi .idea papkasi)
 .idea/
