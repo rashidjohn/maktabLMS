@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% block title %}Foydalanuvchi qo'shish{% endblock %}
+{% block content %}
+
+<style>
+    /* --- PREMIUM DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-soft: #3b82f6;
+        --bg-slate: #f8fafc;
+        --input-focus: #e0f2fe;
+        --radius-premium: 16px;
+        --radius-input: 10px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --shadow-elevation: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+        background-color: var(--bg-slate) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Card Architecture */
+    .card {
+        border-radius: var(--radius-premium) !important;
+        box-shadow: var(--shadow-elevation) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        overflow: hidden;
+        margin-top: 2rem;
+    }
+
+    .card-header {
+        background: var(--primary-deep) !important;
+        border-bottom: none !important;
+        position: relative;
+    }
+
+    .card-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+
+    .card-header h4 {
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        text-align: center;
+    }
+
+    /* Form Elements */
+    .form-label {
+        color: #334155;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control, .form-select {
+        border-radius: var(--radius-input);
+        padding: 0.75rem 1rem;
+        border: 1.5px solid #e2e8f0;
+        background-color: #ffffff;
+        transition: var(--transition);
+        font-size: 0.95rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-soft);
+        background-color: var(--input-focus);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        outline: none;
+    }
+
+    /* Premium Buttons */
+    .btn {
+        padding: 10px 24px;
+        border-radius: var(--radius-input);
+        font-weight: 600;
+        transition: var(--transition);
+        text-transform: none;
+    }
+
+    .btn-secondary {
+        background-color: #ffffff !important;
+        color: #64748b !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+
+    .btn-secondary:hover {
+        background-color: #f1f5f9 !important;
+        color: #1e293b !important;
+        transform: translateX(-3px);
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    .btn-success:hover {
+        filter: brightness(1.1);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Alerts */
+    .alert {
+        border-radius: var(--radius-input);
+        border: none;
+        font-weight: 500;
+        animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    /* Interaction Enhancements */
+    .row.mb-3, .row.mb-4 {
+        transition: transform 0.2s ease;
+    }
+
+    .input-group-focus {
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card shadow border-0">
+            <div class="card-header bg-primary text-white py-3">
+                <h4 class="mb-0">
+                    <i class="bi bi-person-plus-fill me-2"></i>Yangi foydalanuvchi yaratish
+                </h4>
+            </div>
+            <div class="card-body p-4 p-lg-5">
+                {% if error %}
+                    <div class="alert alert-danger d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+                    </div>
+                {% endif %}
+                
+                <form method="POST" action="{% url 'create_user' %}" id="userForm">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="form-label fw-bold">Ism</label>
+                            <input type="text" name="first_name" class="form-control" placeholder="Masalan: Ali" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Familiya</label>
+                            <input type="text" name="last_name" class="form-control" placeholder="Masalan: Valiyev" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="form-label fw-bold">JSHSHIR</label>
+                            <input type="text" name="jshshir" class="form-control" maxlength="14" pattern="\d{14}" placeholder="14 xonali raqam" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Parol</label>
+                            <input type="text" name="password" class="form-control" placeholder="Tizimga kirish uchun parol" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label class="form-label fw-bold">Foydalanuvchi roli</label>
+                            <select name="role" id="roleSelect" class="form-select" required>
+                                <option value="student" selected>O'quvchi</option>
+                                <option value="teacher">O'qituvchi</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold" id="classroomLabel">Sinf (O'quvchilar uchun)</label>
+                            <select name="classroom" id="classroomSelect" class="form-select">
+                                <option value="">--- Sinfni tanlang ---</option>
+                                {% for c in classrooms %}
+                                    <option value="{{ c.id }}">{{ c.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+                        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Orqaga
+                        </a>
+                        <button type="submit" class="btn btn-success fw-bold px-5">
+                            <i class="bi bi-check2-circle me-2"></i>Saqlash
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const roleSelect = document.getElementById('roleSelect');
+        const classroomSelect = document.getElementById('classroomSelect');
+        const classroomLabel = document.getElementById('classroomLabel');
+
+        // Professional Role Logic
+        function toggleClassroomField() {
+            if (roleSelect.value === 'teacher') {
+                classroomSelect.disabled = true;
+                classroomSelect.style.opacity = '0.5';
+                classroomLabel.classList.add('text-muted');
+                classroomSelect.value = "";
+            } else {
+                classroomSelect.disabled = false;
+                classroomSelect.style.opacity = '1';
+                classroomLabel.classList.remove('text-muted');
+            }
+        }
+
+        roleSelect.addEventListener('change', toggleClassroomField);
+
+        // Input Focus Visual Cues
+        const inputs = document.querySelectorAll('.form-control, .form-select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.closest('.col-md-6').style.transform = 'translateY(-2px)';
+            });
+            input.addEventListener('blur', () => {
+                input.closest('.col-md-6').style.transform = 'translateY(0)';
+            });
+        });
+
+        // Initial check
+        toggleClassroomField();
+    });
+</script>
+
+{% endblock %}

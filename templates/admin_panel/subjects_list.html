@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% block title %}Fanlar ro'yxati{% endblock %}
+{% block content %}
+
+<style>
+    /* --- ENTERPRISE ACADEMIC DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-light: #3b82f6;
+        --accent-emerald: #059669;
+        --accent-emerald-light: #10b981;
+        --badge-bg: #e0f2fe;
+        --badge-text: #0369a1;
+        --badge-border: #bae6fd;
+        --bg-slate: #f8fafc;
+        --surface-white: #ffffff;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --border-soft: #e2e8f0;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+        --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-slate) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: var(--text-dark);
+    }
+
+    /* Header & Typography */
+    h2.text-success {
+        color: var(--accent-emerald) !important;
+        letter-spacing: -0.025em;
+        font-size: 1.8rem;
+        text-shadow: 0 2px 4px rgba(5, 150, 105, 0.05);
+    }
+
+    /* Premium Button Architecture */
+    .btn {
+        padding: 9px 20px !important;
+        border-radius: var(--radius-md) !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        transition: var(--transition-smooth) !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none !important;
+    }
+
+    .btn-secondary {
+        background: #ffffff !important;
+        color: #475569 !important;
+        border: 1px solid var(--border-soft) !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+    }
+
+    .btn-secondary:hover {
+        background: #f1f5f9 !important;
+        color: var(--text-dark) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08) !important;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-light) 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25) !important;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(30, 58, 138, 0.35) !important;
+        filter: brightness(1.05);
+    }
+
+    /* Card & Table Container */
+    .card {
+        background: var(--surface-white) !important;
+        border-radius: var(--radius-lg) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        box-shadow: var(--shadow-md) !important;
+        overflow: hidden;
+        animation: slideUpFade 0.5s ease-out forwards;
+    }
+
+    .table-responsive {
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    /* Table Styling */
+    .table {
+        margin-bottom: 0 !important;
+    }
+
+    .table thead.table-light th {
+        background-color: #f8fafc !important;
+        color: var(--text-muted) !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.05em !important;
+        padding: 1.25rem 1rem !important;
+        border-bottom: 2px solid var(--border-soft) !important;
+    }
+
+    .table tbody tr {
+        transition: var(--transition-smooth);
+        border-bottom: 1px solid #f1f5f9;
+        opacity: 0;
+        animation: rowEnter 0.4s ease forwards;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fbff !important;
+    }
+
+    .table tbody td {
+        padding: 1.25rem 1rem !important;
+        vertical-align: middle;
+        color: #334155;
+    }
+
+    /* Specific Cell Styling */
+    .table td.fw-bold {
+        color: var(--text-dark);
+        font-size: 1.05rem;
+        letter-spacing: -0.01em;
+    }
+
+    /* Class Badges Re-styled for Academic Vibe */
+    .badge.bg-secondary {
+        background-color: var(--badge-bg) !important;
+        color: var(--badge-text) !important;
+        border: 1px solid var(--badge-border) !important;
+        padding: 0.55em 0.85em !important;
+        font-weight: 600 !important;
+        font-size: 0.75rem !important;
+        border-radius: 8px !important;
+        letter-spacing: 0.02em;
+        margin-bottom: 4px;
+        display: inline-block;
+        transition: var(--transition-smooth);
+    }
+
+    .badge.bg-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(3, 105, 161, 0.1);
+        background-color: #bae6fd !important;
+    }
+
+    /* Empty State */
+    .text-center.py-4.text-muted {
+        padding: 3rem 1rem !important;
+        font-size: 1rem;
+    }
+
+    /* Animations */
+    @keyframes slideUpFade {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rowEnter {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="text-success fw-bold">📖 Barcha Fanlar</h2>
+    <div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary me-2">Orqaga</a>
+        <a href="/admin/maktab/subject/add/" class="btn btn-success fw-bold">+ Yangi fan qo'shish</a>
+    </div>
+</div>
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="px-4 py-3">Fan nomi</th>
+                    <th>Qaysi sinflarda o'tiladi?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in subjects %}
+                <tr>
+                    <td class="px-4 fw-bold">{{ s.name }}</td>
+                    <td>
+                        {% for c in s.classrooms.all %}
+                            <span class="badge bg-secondary me-1">{{ c.name }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="text-center py-4 text-muted">
+                        <i class="bi bi-book fs-2 d-block mb-2 opacity-50"></i>
+                        <span class="fw-medium">Fanlar topilmadi.</span>
+                        <p class="small mt-1 mb-0 opacity-75">Hali hech qanday fan bazaga kiritilmagan.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            // Staggered animation delay
+            row.style.animationDelay = `${(index + 1) * 80}ms`;
+            
+            // Micro-interaction for hover
+            row.addEventListener('mouseenter', () => {
+                if (!row.querySelector('.bi-book')) { // Avoid animating empty state
+                    row.style.transform = 'scale(1.002) translateX(4px)';
+                }
+            });
+            row.addEventListener('mouseleave', () => {
+                if (!row.querySelector('.bi-book')) {
+                    row.style.transform = 'scale(1) translateX(0)';
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

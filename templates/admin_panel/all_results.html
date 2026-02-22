@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% block title %}Barcha Natijalar{% endblock %}
+{% block content %}
+
+<style>
+    /* --- SENIOR DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-light: #3b82f6;
+        --bg-slate: #f8fafc;
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --danger-gradient: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        --radius-lg: 16px;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Page Setup */
+    body {
+        background-color: var(--bg-slate) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Header Styling */
+    .text-primary {
+        color: var(--primary-deep) !important;
+        letter-spacing: -0.025em;
+        font-size: 1.75rem;
+    }
+
+    /* Button Enhancements */
+    .btn-secondary {
+        background-color: #ffffff !important;
+        color: #475569 !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        padding: 8px 24px !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+        transition: var(--transition) !important;
+    }
+
+    .btn-secondary:hover {
+        background-color: #f1f5f9 !important;
+        color: #1e293b !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
+    }
+
+    /* Premium Card Design */
+    .card {
+        background: #ffffff !important;
+        border-radius: var(--radius-lg) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        box-shadow: var(--card-shadow) !important;
+        overflow: hidden;
+        margin-top: 1rem;
+    }
+
+    /* Table Sophistication */
+    .table-responsive {
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .table thead.table-dark {
+        background: var(--primary-deep) !important;
+        border: none;
+    }
+
+    .table thead th {
+        background: var(--primary-deep) !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.05em !important;
+        padding: 1.25rem 1rem !important;
+        border: none !important;
+    }
+
+    .table tbody tr {
+        transition: var(--transition);
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fbff !important;
+    }
+
+    .table td {
+        padding: 1.15rem 1rem !important;
+        color: #334155;
+    }
+
+    /* Typography & Content Layout */
+    .student-name {
+        color: #0f172a;
+        font-weight: 600;
+    }
+
+    .quiz-title {
+        color: #64748b;
+        font-size: 0.85rem;
+    }
+
+    /* Badges & Indicators */
+    .badge {
+        padding: 0.6em 1em !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+    }
+
+    .badge.bg-info {
+        background-color: #e0f2fe !important;
+        color: #0369a1 !important;
+    }
+
+    .badge.bg-success {
+        background: var(--success-gradient) !important;
+        box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+    }
+
+    .badge.bg-danger {
+        background: var(--danger-gradient) !important;
+        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+    }
+
+    .score-accent {
+        font-family: 'JetBrains Mono', monospace;
+        letter-spacing: -0.5px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    tbody tr {
+        opacity: 0;
+        animation: fadeInUp 0.5s ease forwards;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <div>
+        <h2 class="text-primary fw-bold mb-0">📊 Umumiy Natijalar</h2>
+        <p class="text-muted small mt-1">O'quvchilarning akademik o'zlashtirish ko'rsatkichlari</p>
+    </div>
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary fw-bold shadow-sm d-flex align-items-center">
+        <span class="me-2">←</span> Orqaga
+    </a>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th class="px-4 py-3">#</th>
+                    <th>O'quvchi</th>
+                    <th>Sinf</th>
+                    <th>Fan va Test</th>
+                    <th class="text-center">To'g'ri javob</th>
+                    <th class="text-center">Foiz</th>
+                    <th>Sana</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr style="animation-delay: {{ forloop.counter0|add:1 }}00ms;">
+                    <td class="px-4 fw-bold text-muted">{{ forloop.counter }}</td>
+                    <td class="student-name">{{ result.student.first_name }} {{ result.student.last_name }}</td>
+                    <td><span class="badge bg-info text-dark">{{ result.student.classroom.name }}</span></td>
+                    <td>
+                        <div class="fw-bold text-dark">{{ result.quiz.subject.name }}</div>
+                        <div class="quiz-title">{{ result.quiz.title }}</div>
+                    </td>
+                    <td class="text-center">
+                        <span class="score-accent fw-bold text-success fs-5">{{ result.correct_answers }}</span>
+                        <span class="text-muted"> / {{ result.total_questions }}</span>
+                    </td>
+                    <td class="text-center">
+                        {% if result.score >= result.quiz.pass_score %}
+                            <span class="badge bg-success fs-6">{{ result.score }}%</span>
+                        {% else %}
+                            <span class="badge bg-danger fs-6">{{ result.score }}%</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">
+                        <div class="d-flex align-items-center">
+                            <i class="far fa-clock me-2"></i>
+                            {{ result.completed_at|date:"d.m.Y H:i" }}
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Table row interaction logic
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'scale(1.005) translateX(5px)';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'scale(1) translateX(0)';
+            });
+        });
+
+        // Dynamic badge color pulse if low performance
+        const failBadges = document.querySelectorAll('.badge.bg-danger');
+        failBadges.forEach(badge => {
+            badge.style.animation = 'pulse 2s infinite ease-in-out';
+        });
+    });
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+
+{% endblock %}

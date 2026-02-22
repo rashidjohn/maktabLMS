@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% block title %}Testlar ro'yxati{% endblock %}
+{% block content %}
+
+<style>
+    /* --- ENTERPRISE ARCHITECTURE DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-light: #3b82f6;
+        --accent-emerald: #059669;
+        --accent-emerald-light: #10b981;
+        --accent-rose: #be123c;
+        --accent-amber-soft: #fef3c7;
+        --accent-amber-dark: #92400e;
+        --bg-slate: #f8fafc;
+        --surface-white: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border-soft: #e2e8f0;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+        --shadow-soft: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-slate) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: var(--text-main);
+    }
+
+    /* Header & Typography */
+    h2.text-danger {
+        color: var(--accent-rose) !important;
+        letter-spacing: -0.025em;
+        font-size: 1.75rem;
+        text-shadow: 0 2px 4px rgba(190, 18, 60, 0.05);
+    }
+
+    /* Premium Button System */
+    .btn {
+        padding: 9px 20px !important;
+        border-radius: var(--radius-md) !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        transition: var(--transition) !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none !important;
+    }
+
+    .btn-secondary {
+        background: #ffffff !important;
+        color: #475569 !important;
+        border: 1px solid var(--border-soft) !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+    }
+
+    .btn-secondary:hover {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1) !important;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-light) 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2) !important;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(30, 58, 138, 0.3) !important;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-emerald-light) 100%) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3) !important;
+    }
+
+    /* Card & Table Architecture */
+    .card {
+        background: var(--surface-white) !important;
+        border-radius: var(--radius-lg) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        box-shadow: var(--shadow-soft) !important;
+        overflow: hidden;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .table-responsive {
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .table {
+        margin-bottom: 0 !important;
+    }
+
+    .table thead.table-light th {
+        background-color: #f8fafc !important;
+        color: var(--text-muted) !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.05em !important;
+        padding: 1.25rem 1rem !important;
+        border-bottom: 2px solid var(--border-soft) !important;
+    }
+
+    .table tbody tr {
+        transition: var(--transition);
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fbff !important;
+    }
+
+    .table tbody td {
+        padding: 1.15rem 1rem !important;
+        vertical-align: middle;
+        color: #334155;
+    }
+
+    /* Table Content Styling */
+    .table td.fw-bold {
+        color: var(--text-main);
+        font-size: 0.95rem;
+    }
+
+    .text-success.fw-medium {
+        color: var(--accent-emerald) !important;
+    }
+
+    /* Badges Customization */
+    .badge {
+        padding: 0.55em 0.9em !important;
+        font-weight: 600 !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.02em;
+    }
+
+    .badge.bg-warning.text-dark {
+        background-color: var(--accent-amber-soft) !important;
+        color: var(--accent-amber-dark) !important;
+        border: 1px solid #fcd34d !important;
+        border-radius: 8px !important;
+    }
+
+    .badge.bg-primary.rounded-pill {
+        background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-light) 100%) !important;
+        box-shadow: 0 2px 6px rgba(30, 58, 138, 0.2);
+        padding: 0.55em 1.2em !important;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes rowEnter {
+        from { opacity: 0; transform: translateX(-10px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    tbody tr {
+        opacity: 0;
+        animation: rowEnter 0.4s ease forwards;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="text-danger fw-bold">📝 Barcha Testlar</h2>
+    <div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary me-2">Orqaga</a>
+        <a href="{% url 'upload_quiz_excel' %}" class="btn btn-primary me-2">📥 Excel yuklash</a>
+        <a href="/admin/maktab/quiz/add/" class="btn btn-success fw-bold">+ Quruq test yaratish</a>
+    </div>
+</div>
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="px-4 py-3">Test nomi</th>
+                    <th>Fan</th>
+                    <th>Sinf</th>
+                    <th>Vaqt</th>
+                    <th>O'tish bali</th>
+                    <th>Savollar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for q in quizzes %}
+                <tr style="animation-delay: {{ forloop.counter0|add:1 }}00ms;">
+                    <td class="px-4 fw-bold">{{ q.title }}</td>
+                    <td class="text-success fw-medium">{{ q.subject.name }}</td>
+                    <td><span class="badge bg-warning text-dark">{{ q.classroom.name }}</span></td>
+                    <td>
+                        <i class="bi bi-clock me-1 text-muted small"></i>
+                        {{ q.duration_minutes }} daqiqa
+                    </td>
+                    <td>
+                        <span class="fw-semibold text-dark">{{ q.pass_score }}%</span>
+                    </td>
+                    <td><span class="badge bg-primary rounded-pill">{{ q.questions.count }} ta</span></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-5">
+                        <div class="text-muted">
+                            <i class="bi bi-inbox fs-2 d-block mb-2 opacity-50"></i>
+                            <span class="fs-5">Testlar topilmadi.</span>
+                            <p class="small mt-1 mb-0 opacity-75">Hali hech qanday test bazaga kiritilmagan.</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Subtle row hover animation
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                if(!row.querySelector('.bi-inbox')) { // Don't animate empty state
+                    row.style.transform = 'scale(1.005) translateX(4px)';
+                }
+            });
+            row.addEventListener('mouseleave', () => {
+                if(!row.querySelector('.bi-inbox')) {
+                    row.style.transform = 'scale(1) translateX(0)';
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

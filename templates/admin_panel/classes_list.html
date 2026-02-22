@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% block title %}Sinflar ro'yxati{% endblock %}
+{% block content %}
+
+<style>
+    /* --- SENIOR ARCHITECT DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --secondary-slate: #64748b;
+        --success-premium: #059669;
+        --bg-slate: #f8fafc;
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --shadow-premium: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-slate) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: #1e293b;
+    }
+
+    /* Header Refinement */
+    .text-primary-custom {
+        color: var(--primary-deep) !important;
+        letter-spacing: -0.025em;
+    }
+
+    /* Button System */
+    .btn {
+        padding: 10px 20px;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-secondary {
+        background: #ffffff !important;
+        color: var(--secondary-slate) !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+
+    .btn-secondary:hover {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+        transform: translateY(-1px);
+    }
+
+    .btn-success {
+        background: var(--primary-deep) !important; /* Academic Theme Overwrite */
+        border: none !important;
+        box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.2);
+    }
+
+    .btn-success:hover {
+        background: #1e40af !important;
+        box-shadow: 0 10px 15px -3px rgba(30, 58, 138, 0.3);
+        transform: translateY(-2px);
+    }
+
+    /* Card & Table Architecture */
+    .card {
+        border-radius: var(--radius-lg) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        box-shadow: var(--shadow-premium) !important;
+        overflow: hidden;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    .table thead {
+        background-color: #f1f5f9;
+    }
+
+    .table thead th {
+        color: var(--secondary-slate);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        padding: 1.25rem 1rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+
+    .table tbody tr {
+        transition: var(--transition);
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fbff !important;
+    }
+
+    .table td {
+        padding: 1.25rem 1rem;
+        vertical-align: middle;
+    }
+
+    /* Typography & Badges */
+    .class-name {
+        color: var(--primary-deep);
+        font-weight: 700;
+    }
+
+    .badge-lang {
+        background-color: #e0f2fe !important;
+        color: #0369a1 !important;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+
+    .teacher-name {
+        font-weight: 500;
+        color: #475569;
+    }
+
+    .student-count-chip {
+        background: #f1f5f9;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        color: var(--primary-deep);
+    }
+
+    /* Empty State */
+    .empty-state-text {
+        font-style: italic;
+        letter-spacing: 0.2px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <div>
+        <h2 class="text-primary-custom fw-bold mb-1">🏫 Barcha Sinflar</h2>
+        <p class="text-muted small mb-0">Maktabdagi mavjud barcha sinflar va ularning ko'rsatkichlari</p>
+    </div>
+    <div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary me-2">
+            <span>←</span> Orqaga
+        </a>
+        <a href="/admin/maktab/classroom/add/" class="btn btn-success fw-bold">
+            <span>+</span> Yangi sinf qo'shish
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0 table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th class="px-4">Sinf nomi</th>
+                    <th>Ta'lim tili</th>
+                    <th>Sinf rahbari</th>
+                    <th>O'quvchilar soni</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in classes %}
+                <tr>
+                    <td class="px-4">
+                        <span class="class-name fs-5">{{ c.name }}</span>
+                    </td>
+                    <td>
+                        <span class="badge badge-lang">{{ c.get_language_display }}</span>
+                    </td>
+                    <td>
+                        <div class="teacher-name">
+                            {% if c.teacher %}
+                                <i class="bi bi-person-badge me-2 text-muted"></i>{{ c.teacher.first_name }} {{ c.teacher.last_name }}
+                            {% else %}
+                                <span class="text-danger small opacity-75">Biriktirilmagan</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="student-count-chip fw-bold">
+                            <i class="bi bi-people me-1"></i> {{ c.students.count }} ta
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-5">
+                        <div class="text-muted empty-state-text">
+                            <p class="mb-0 fs-5">Sinflar topilmadi.</p>
+                            <small>Hali hech qanday sinf bazaga kiritilmagan.</small>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation delay for rows
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            row.style.opacity = '0';
+            row.style.animation = `fadeIn 0.4s ease-out forwards ${index * 0.05}s`;
+        });
+
+        // Hover effect enhancement for the "add" button
+        const addBtn = document.querySelector('.btn-success');
+        if(addBtn) {
+            addBtn.addEventListener('mouseover', () => {
+                addBtn.style.transform = 'scale(1.05) translateY(-2px)';
+            });
+            addBtn.addEventListener('mouseout', () => {
+                addBtn.style.transform = 'scale(1) translateY(0)';
+            });
+        }
+    });
+</script>
+
+{% endblock %}

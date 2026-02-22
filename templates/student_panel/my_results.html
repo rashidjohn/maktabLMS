@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% block title %}Mening Natijalarim{% endblock %}
+{% block content %}
+
+<style>
+    /* --- SENIOR ENTERPRISE DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-light: #3b82f6;
+        --accent-emerald: #10b981;
+        --accent-emerald-dark: #059669;
+        --accent-rose: #ef4444;
+        --accent-rose-dark: #be123c;
+        --bg-main: #f8fafc;
+        --surface-white: #ffffff;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --border-soft: #e2e8f0;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+        --radius-pill: 9999px;
+        --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-main) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Headings */
+    h2.text-success {
+        color: var(--accent-emerald-dark) !important;
+        letter-spacing: -0.025em;
+        font-size: 1.8rem;
+        text-shadow: 0 2px 4px rgba(5, 150, 105, 0.05);
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-light) 100%) !important;
+        border: none !important;
+        border-radius: var(--radius-md) !important;
+        padding: 10px 24px !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25) !important;
+        transition: var(--transition) !important;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(30, 58, 138, 0.35) !important;
+        filter: brightness(1.05);
+    }
+
+    /* Card Architecture */
+    .card {
+        border-radius: var(--radius-lg) !important;
+        background: var(--surface-white) !important;
+        box-shadow: var(--shadow-soft) !important;
+        transition: var(--transition) !important;
+        overflow: hidden;
+        opacity: 0;
+        animation: fadeUp 0.5s ease-out forwards;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-hover) !important;
+    }
+
+    /* Override Bootstrap Left Borders for Premium Look */
+    .border-start.border-success.border-4 {
+        border-left: 5px solid var(--accent-emerald) !important;
+    }
+
+    .border-start.border-danger.border-4 {
+        border-left: 5px solid var(--accent-rose) !important;
+    }
+
+    .card.bg-light {
+        background: #ffffff !important; 
+        background-image: linear-gradient(to bottom right, #ffffff, #f8fafc) !important;
+    }
+
+    /* Typography inside Card */
+    .card-body h5.text-muted {
+        color: var(--text-dark) !important;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: -0.01em;
+    }
+
+    .card-body h6.text-muted {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .card-body h2 {
+        font-size: 3rem;
+        letter-spacing: -0.05em;
+        margin: 0.5rem 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .text-success.fw-bold { color: var(--accent-emerald-dark) !important; }
+    .text-danger.fw-bold { color: var(--accent-rose-dark) !important; }
+
+    /* Badges */
+    .badge {
+        padding: 0.5em 1.2em !important;
+        font-weight: 600 !important;
+        font-size: 0.8rem !important;
+        border-radius: var(--radius-pill) !important;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+    }
+
+    .badge.bg-success {
+        background: linear-gradient(135deg, var(--accent-emerald) 0%, #059669 100%) !important;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    .badge.bg-danger {
+        background: linear-gradient(135deg, var(--accent-rose) 0%, #dc2626 100%) !important;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    }
+
+    /* Meta Info */
+    .mt-3.text-muted.small {
+        margin-top: 1.5rem !important;
+        padding-top: 1rem;
+        border-top: 1px dashed var(--border-soft);
+    }
+
+    .mt-3.text-muted.small p {
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.9rem;
+    }
+
+    /* Empty State */
+    .col-12 p.text-muted {
+        background-color: var(--surface-white);
+        border-radius: var(--radius-lg);
+        font-size: 1.05rem;
+        border: 1px dashed #cbd5e1;
+        text-align: center;
+        padding: 4rem 2rem;
+        box-shadow: var(--shadow-soft);
+        font-weight: 500;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="text-success fw-bold">✅ Ishlangan Testlar Tarixi</h2>
+    <a href="{% url 'student_dashboard' %}" class="btn btn-primary fw-bold">Orqaga</a>
+</div>
+<div class="row" id="results-container">
+    {% for result in student_results %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-0 border-start border-success border-4 bg-light">
+            <div class="card-body text-center">
+                <h5 class="text-muted">{{ result.quiz.subject.name }}</h5>
+                <h6 class="mb-3 text-muted">{{ result.quiz.title }}</h6>
+                {% if result.score >= result.quiz.pass_score %}
+                    <h2 class="text-success fw-bold">{{ result.score }}%</h2><span class="badge bg-success">O'tdi</span>
+                {% else %}
+                    <h2 class="text-danger fw-bold">{{ result.score }}%</h2><span class="badge bg-danger">Yiqildi</span>
+                {% endif %}
+                <div class="mt-3 text-muted small"><p class="mb-0">To'g'ri javoblar: {{ result.correct_answers }} ta</p></div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12"><p class="text-muted">Siz hali hech qanday test ishlamagansiz.</p></div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Staggered loading animation for Result Cards
+        const resultCards = document.querySelectorAll('#results-container .card');
+        resultCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+
+        // Dynamic State Correction: 
+        // HTML defaults to 'border-success'. This script corrects it for failed tests based on the score logic without touching django template structure.
+        const failedScores = document.querySelectorAll('.text-danger.fw-bold');
+        failedScores.forEach(score => {
+            const parentCard = score.closest('.card');
+            if(parentCard) {
+                parentCard.classList.remove('border-success');
+                parentCard.classList.add('border-danger');
+            }
+        });
+        
+        // Empty State Enhancement: Add icon dynamically to existing text
+        const emptyStateText = document.querySelector('.col-12 p.text-muted');
+        if (emptyStateText && emptyStateText.textContent.trim() === 'Siz hali hech qanday test ishlamagansiz.') {
+            emptyStateText.innerHTML = '<i class="bi bi-journal-x fs-1 d-block mb-3 opacity-50"></i>' + emptyStateText.innerHTML;
+        }
+    });
+</script>
+
+{% endblock %}

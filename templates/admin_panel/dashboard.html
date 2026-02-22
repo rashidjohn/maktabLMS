@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% block title %}Admin Panel - Maktab LMS{% endblock %}
+{% block content %}
+
+<style>
+    /* --- ENTERPRISE DASHBOARD DESIGN SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-light: #3b82f6;
+        --accent-emerald: #059669;
+        --accent-emerald-light: #10b981;
+        --accent-amber: #d97706;
+        --accent-amber-light: #f59e0b;
+        --accent-rose: #be123c;
+        --accent-rose-light: #f43f5e;
+        --bg-main: #f8fafc;
+        --surface-white: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --border-soft: rgba(226, 232, 240, 0.8);
+        --radius-xl: 20px;
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.02);
+        --shadow-md: 0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02);
+        --shadow-hover: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-main) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: var(--text-main);
+    }
+
+    /* Header Styling */
+    h2.text-primary {
+        color: var(--primary-deep) !important;
+        font-size: 1.875rem;
+        letter-spacing: -0.03em;
+        position: relative;
+    }
+
+    /* Action Buttons */
+    .btn {
+        border-radius: var(--radius-md) !important;
+        padding: 0.6rem 1.25rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.01em;
+        transition: var(--transition-smooth) !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-emerald-light) 100%) !important;
+        border: none !important;
+        color: white !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+    }
+
+    .btn-success:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3) !important;
+        filter: brightness(1.05);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-light) 100%) !important;
+        border: none !important;
+        color: white !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2) !important;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(30, 58, 138, 0.3) !important;
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #e2e8f0 !important;
+        color: var(--primary-deep) !important;
+        background: transparent !important;
+    }
+
+    .btn-outline-primary:hover {
+        border-color: var(--primary-light) !important;
+        background: #eff6ff !important;
+        color: var(--primary-deep) !important;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-success, .btn-outline-danger {
+        border: 2px solid #e2e8f0 !important;
+        background: transparent !important;
+    }
+
+    .btn-outline-success { color: var(--accent-emerald) !important; }
+    .btn-outline-success:hover {
+        border-color: var(--accent-emerald-light) !important;
+        background: #ecfdf5 !important;
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-danger { color: var(--accent-rose) !important; }
+    .btn-outline-danger:hover {
+        border-color: var(--accent-rose-light) !important;
+        background: #fff1f2 !important;
+        transform: translateY(-2px);
+    }
+
+    /* Metric Cards - Premium Overrides */
+    .hover-zoom {
+        border-radius: var(--radius-xl) !important;
+        transition: var(--transition-smooth) !important;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .hover-zoom::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        z-index: -1;
+        opacity: 0.5;
+    }
+
+    .hover-zoom:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-hover) !important;
+    }
+
+    /* Gradients for metric cards based on existing classes */
+    .bg-primary.hover-zoom { background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary-light) 100%) !important; }
+    .bg-success.hover-zoom { background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-emerald-light) 100%) !important; }
+    .bg-danger.hover-zoom { background: linear-gradient(135deg, var(--accent-rose) 0%, var(--accent-rose-light) 100%) !important; }
+    
+    .bg-warning.hover-zoom { 
+        background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-amber-light) 100%) !important; 
+    }
+    .bg-warning.text-dark h1, .bg-warning.text-dark h5 {
+        color: #ffffff !important; /* Force white text for premium look */
+    }
+
+    .card-body h1.display-4 {
+        font-weight: 800 !important;
+        font-size: 3.5rem;
+        letter-spacing: -0.05em;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card-body h5.card-title {
+        font-size: 1rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.9;
+    }
+
+    /* Quick Actions Panel */
+    .card.shadow-sm.mt-3 {
+        background: var(--surface-white) !important;
+        border-radius: var(--radius-lg) !important;
+        border: 1px solid var(--border-soft) !important;
+        box-shadow: var(--shadow-md) !important;
+        animation: fadeUp 0.6s ease-out 0.2s both;
+    }
+
+    .card.shadow-sm.mt-3 .card-header {
+        background: var(--surface-white) !important;
+        border-bottom: 1px solid var(--border-soft) !important;
+        padding: 1.25rem 1.5rem;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    }
+
+    .card.shadow-sm.mt-3 .card-header h5 {
+        color: var(--primary-deep);
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+
+    .card.shadow-sm.mt-3 .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .card.shadow-sm.mt-3 .card-body .btn {
+        margin: 0 !important; /* Override standard bootstrap margins for precise flex gap */
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="text-primary fw-bold">👑 Boshqaruv Paneli (Admin)</h2>
+    <a href="{% url 'create_user' %}" class="btn btn-success fw-bold">
+        <i class="bi bi-person-plus"></i> + Yangi foydalanuvchi qo'shish
+    </a>
+</div>
+
+<div class="row" id="metrics-grid">
+    <div class="col-md-3 mb-4">
+        <a href="{% url 'manage_students' %}" class="text-decoration-none">
+            <div class="card bg-primary text-white shadow border-0 h-100 hover-zoom">
+                <div class="card-body text-center d-flex flex-column justify-content-center py-4">
+                    <h1 class="display-4 fw-bold">{{ students_count }}</h1>
+                    <h5 class="card-title mt-2">Jami O'quvchilar</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 mb-4">
+        <a href="{% url 'manage_teachers' %}" class="text-decoration-none">
+            <div class="card bg-success text-white shadow border-0 h-100 hover-zoom">
+                <div class="card-body text-center d-flex flex-column justify-content-center py-4">
+                    <h1 class="display-4 fw-bold">{{ teachers_count }}</h1>
+                    <h5 class="card-title mt-2">Sinf rahbarlari</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 mb-4">
+        <a href="{% url 'manage_classes' %}" class="text-decoration-none">
+            <div class="card bg-warning text-dark shadow border-0 h-100 hover-zoom">
+                <div class="card-body text-center d-flex flex-column justify-content-center py-4">
+                    <h1 class="display-4 fw-bold">{{ classes_count }}</h1>
+                    <h5 class="card-title mt-2">Mavjud Sinflar</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3 mb-4">
+        <a href="{% url 'manage_quizzes' %}" class="text-decoration-none">
+            <div class="card bg-danger text-white shadow border-0 h-100 hover-zoom">
+                <div class="card-body text-center d-flex flex-column justify-content-center py-4">
+                    <h1 class="display-4 fw-bold">{{ quizzes_count }}</h1>
+                    <h5 class="card-title mt-2">Test bazasi</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm mt-3 border-0">
+    <div class="card-header bg-white"><h5 class="mb-0">Tezkor amallar</h5></div>
+    <div class="card-body">
+        <a href="{% url 'all_results_admin' %}" class="btn btn-primary me-2 fw-bold">📊 Barcha natijalarni ko'rish</a>
+        <a href="{% url 'manage_classes' %}" class="btn btn-outline-primary me-2 fw-bold">Sinflarni boshqarish</a>
+        <a href="{% url 'manage_subjects' %}" class="btn btn-outline-success me-2 fw-bold">Fanlarni boshqarish</a>
+        <a href="{% url 'manage_quizzes' %}" class="btn btn-outline-danger me-2 fw-bold">Testlarni ko'rish</a>
+        <a href="{% url 'upload_quiz_excel' %}" class="btn btn-success fw-bold">📥 Excel yuklash</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Staggered fade-up animation for metric cards
+        const cards = document.querySelectorAll('#metrics-grid .col-md-3');
+        cards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.animation = `fadeUp 0.6s ease-out ${index * 0.1}s forwards`;
+        });
+    });
+</script>
+
+{% endblock %}

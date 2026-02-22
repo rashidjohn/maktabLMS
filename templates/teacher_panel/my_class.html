@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+
+{% block title %}Mening Sinfim - Maktab LMS{% endblock %}
+
+{% block content %}
+
+<style>
+    /* --- SENIOR ENTERPRISE TEACHER DASHBOARD SYSTEM --- */
+    :root {
+        --primary-deep: #1e3a8a;
+        --primary-light: #3b82f6;
+        --accent-emerald: #10b981;
+        --accent-emerald-dark: #059669;
+        --accent-rose: #ef4444;
+        --accent-rose-dark: #be123c;
+        --accent-amber: #f59e0b;
+        --bg-main: #f8fafc;
+        --surface-white: #ffffff;
+        --text-dark: #0f172a;
+        --text-muted: #64748b;
+        --border-soft: #e2e8f0;
+        --radius-xl: 20px;
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --shadow-elevation: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+        background-color: var(--bg-main) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Headings & Badges */
+    h2.text-success {
+        color: var(--accent-emerald-dark) !important;
+        letter-spacing: -0.025em;
+        font-size: 1.8rem;
+    }
+
+    .badge {
+        padding: 0.6em 1.2em !important;
+        border-radius: var(--radius-md) !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.02em;
+    }
+
+    .badge.bg-success {
+        background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-emerald-dark) 100%) !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+
+    .badge.bg-danger {
+        background: linear-gradient(135deg, var(--accent-rose) 0%, var(--accent-rose-dark) 100%) !important;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+
+    /* Card Architecture */
+    .card {
+        border-radius: var(--radius-lg) !important;
+        box-shadow: var(--shadow-elevation) !important;
+        border: 1px solid rgba(226, 232, 240, 0.8) !important;
+        background: var(--surface-white) !important;
+        overflow: hidden;
+        animation: fadeUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+    /* Staggered animation classes */
+    .card-left { animation-delay: 0.1s; }
+    .card-right { animation-delay: 0.2s; }
+
+    .card-header {
+        background: var(--surface-white) !important;
+        border-bottom: 1px solid var(--border-soft) !important;
+        padding: 1.25rem 1.5rem !important;
+    }
+
+    .card-header h5 {
+        font-weight: 700;
+        letter-spacing: -0.01em;
+    }
+
+    .card-header .text-secondary { color: var(--text-dark) !important; }
+    .card-header .text-primary { color: var(--primary-deep) !important; }
+
+    /* Override Bootstrap border for premium feel */
+    .border-start.border-success.border-4 {
+        border-left: 5px solid var(--accent-emerald) !important;
+    }
+
+    /* Table Sophistication */
+    .table-responsive {
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .table {
+        margin-bottom: 0 !important;
+    }
+
+    .table thead.table-light th {
+        background-color: #f8fafc !important;
+        color: var(--text-muted) !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        font-size: 0.75rem !important;
+        letter-spacing: 0.05em !important;
+        padding: 1rem 1.25rem !important;
+        border-bottom: 2px solid var(--border-soft) !important;
+    }
+
+    .table tbody tr {
+        transition: var(--transition);
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8fbff !important;
+    }
+
+    .table tbody td {
+        padding: 1rem 1.25rem !important;
+        vertical-align: middle;
+        color: #334155;
+    }
+
+    .table td.fw-bold {
+        color: var(--text-dark);
+        font-size: 0.95rem;
+    }
+
+    /* Alert Styling */
+    .alert-warning {
+        background-color: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+        color: #b45309 !important;
+        border-radius: var(--radius-lg) !important;
+        padding: 3rem 2rem !important;
+        animation: fadeUp 0.5s ease-out forwards;
+    }
+
+    .alert-warning .alert-heading {
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: #92400e;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Empty States */
+    .text-center.py-4.text-muted, .text-center.py-5.text-muted {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #94a3b8 !important;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4 mt-3">
+    <h2 class="text-success fw-bold">👥 Mening Sinfim</h2>
+    <div>
+        {% if classroom %}
+            <span class="badge bg-success fs-6 shadow-sm">{{ classroom.name }} ({{ classroom.get_language_display }})</span>
+        {% else %}
+            <span class="badge bg-danger fs-6 shadow-sm">Sinf biriktirilmagan</span>
+        {% endif %}
+    </div>
+</div>
+
+{% if classroom %}
+<div class="row">
+    <div class="col-md-5 mb-4">
+        <div class="card shadow-sm border-0 h-100 card-left">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 text-secondary">
+                    <i class="bi bi-person-lines-fill me-2 text-muted"></i>O'quvchilar ro'yxati
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="px-4 py-3">#</th>
+                                <th>Ism va Familiya</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td class="px-4 fw-bold text-muted">{{ forloop.counter }}</td>
+                                <td class="fw-bold">{{ student.last_name }} {{ student.first_name }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center py-5 text-muted">
+                                    <i class="bi bi-people fs-2 d-block mb-2 opacity-50"></i>
+                                    Sinfingizga o'quvchilar kiritilmagan.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7 mb-4">
+        <div class="card shadow-sm border-0 h-100 border-start border-success border-4 card-right">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 text-primary">
+                    <i class="bi bi-bar-chart-fill me-2"></i>Sinf bo'yicha so'nggi natijalar
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="px-4 py-3">O'quvchi</th>
+                                <th>Fan va Test</th>
+                                <th class="text-center">Foiz</th>
+                                <th>Sana</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in class_results %}
+                            <tr>
+                                <td class="px-4 fw-bold">{{ result.student.first_name }}</td>
+                                <td>
+                                    <strong class="text-dark">{{ result.quiz.subject.name }}</strong><br>
+                                    <small class="text-muted">{{ result.quiz.title }}</small>
+                                </td>
+                                <td class="text-center">
+                                    {% if result.score >= result.quiz.pass_score %}
+                                        <span class="badge bg-success" style="padding: 0.4em 0.8em !important; font-size: 0.8rem !important;">{{ result.score }}%</span>
+                                    {% else %}
+                                        <span class="badge bg-danger" style="padding: 0.4em 0.8em !important; font-size: 0.8rem !important;">{{ result.score }}%</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="text-muted small">
+                                        <i class="bi bi-clock me-1"></i>{{ result.completed_at|date:"d.m.Y H:i" }}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <i class="bi bi-journal-x fs-2 d-block mb-2 opacity-50"></i>
+                                    Sinfingizdagi o'quvchilar hali hech qanday test ishlamagan.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-warning text-center py-5 shadow-sm border-0" role="alert">
+    <i class="bi bi-exclamation-triangle-fill fs-1 text-warning d-block mb-3"></i>
+    <h4 class="alert-heading">Hali sinf rahbarimassiz!</h4>
+    <p class="mb-0 text-muted">Sizga hali sinf biriktirilmagan. Iltimos, admin bilan bog'laning.</p>
+</div>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Micro-interaction for table rows
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                // Ignore empty state rows
+                if(!row.querySelector('.bi-people') && !row.querySelector('.bi-journal-x')) {
+                    row.style.transform = 'scale(1.002) translateX(3px)';
+                }
+            });
+            row.addEventListener('mouseleave', () => {
+                if(!row.querySelector('.bi-people') && !row.querySelector('.bi-journal-x')) {
+                    row.style.transform = 'scale(1) translateX(0)';
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
